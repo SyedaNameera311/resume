@@ -18,7 +18,7 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: "https://frontend-lime-eight-81.vercel.app",
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:3000",
     credentials: true,
   })
 );
