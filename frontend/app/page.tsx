@@ -14,6 +14,7 @@ import {
   LayoutTemplate,
   Link2,
   Menu,
+  Palette,
   Plus,
   RotateCcw,
   Sparkles,
@@ -79,10 +80,33 @@ const starter: Resume = {
   ],
   skills:
     "Product strategy · Interaction design · Prototyping · Design systems · Figma · Research · Accessibility · Workshop facilitation",
-  accent: "#7657e8",
+  accent: "#6044c8",
   template: "signature-01",
   fontSize: 12,
 };
+function BrandGlyph() {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M8.5 5.5h10l5 5v15h-15z" fill="white" />
+      <path
+        d="M18.5 5.5v5h5M12.5 15.5h7M12.5 19.5h7"
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="m20.5 23 1.2 1.2 2.4-2.6"
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [resume, setResume] = useState<Resume>(starter);
   const [active, setActive] = useState("About");
@@ -90,6 +114,7 @@ export default function Home() {
   const [notice, setNotice] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [auth, setAuth] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
   useEffect(() => {
     const s = localStorage.getItem("folio-resume");
     if (s) {
@@ -105,6 +130,10 @@ export default function Home() {
         setResume(stored);
       } catch {}
     }
+    if (sessionStorage.getItem("folio-opened") === "true") setHasEntered(true);
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
   }, []);
   const save = () => {
     localStorage.setItem("folio-resume", JSON.stringify(resume));
@@ -115,8 +144,14 @@ export default function Home() {
       setNotice("");
     }, 2200);
   };
-  const update = (key: keyof Resume, value: any) =>
+  const update = (key: keyof Resume, value: any) => {
+    if (key === "accent") {
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", String(value));
+    }
     setResume((r) => ({ ...r, [key]: value }));
+  };
   const updItem = (
     group: "experience" | "education",
     i: number,
@@ -214,15 +249,86 @@ export default function Home() {
     setAuth(false);
     setTimeout(() => setNotice(""), 4500);
   };
+  const openApp = () => {
+    sessionStorage.setItem("folio-opened", "true");
+    setHasEntered(true);
+  };
+  if (!hasEntered) {
+    return (
+      <main
+        className={styles.launchScreen}
+        style={{ "--accent": resume.accent } as React.CSSProperties}
+      >
+        <div className={styles.launchGlow} />
+        <section className={styles.launchCard}>
+          <a className={styles.launchBrand} href="#" aria-label="folio home">
+            <span className={styles.brandMark}>
+              <BrandGlyph />
+            </span>
+            <span>
+              folio<span className={styles.brandDot}>.</span>
+            </span>
+          </a>
+          <div className={styles.launchContent}>
+            <span className={styles.launchEyebrow}>
+              <Sparkles size={14} /> YOUR NEXT CHAPTER STARTS HERE
+            </span>
+            <h1>
+              A resume that looks <em>like you.</em>
+            </h1>
+            <p>
+              Build a thoughtful, polished resume with a design that feels
+              right. Your story, your style, your next move.
+            </p>
+            <button className={styles.launchButton} onClick={openApp}>
+              Open resume studio <ArrowRight size={18} />
+            </button>
+            <div className={styles.launchProof}>
+              <span>
+                <b>36</b> unique designs
+              </span>
+              <i />
+              <span>
+                <b>3</b> style collections
+              </span>
+              <i />
+              <span>
+                <b>12+</b> colors
+              </span>
+            </div>
+          </div>
+          <div className={styles.launchPaper} aria-hidden="true">
+            <span className={styles.launchPaperAccent} />
+            <span className={styles.launchPaperName}>Alex Morgan</span>
+            <span className={styles.launchPaperRole}>PRODUCT DESIGNER</span>
+            <span className={styles.launchPaperRule} />
+            <span className={styles.launchPaperHeading}>PROFILE</span>
+            <span className={styles.launchPaperLine} />
+            <span className={styles.launchPaperLine} />
+            <span className={styles.launchPaperLineShort} />
+            <span className={styles.launchPaperHeading}>EXPERIENCE</span>
+            <span className={styles.launchPaperLine} />
+            <span className={styles.launchPaperLine} />
+            <span className={styles.launchPaperLineShort} />
+            <span className={styles.launchPaperDot} />
+          </div>
+        </section>
+        <footer className={styles.launchFooter}>
+          A calm, considered space for your next chapter.
+        </footer>
+      </main>
+    );
+  }
   return (
     <main
       className={styles.app}
+      data-app-root
       style={{ "--accent": resume.accent } as React.CSSProperties}
     >
-      <header className={styles.topbar}>
+      <header className={styles.topbar} data-print-hide>
         <a className={styles.brand} href="#">
           <span className={styles.brandMark}>
-            <FileText size={18} />
+            <BrandGlyph />
           </span>
           <span>
             folio<span className={styles.brandDot}>.</span>
@@ -238,6 +344,15 @@ export default function Home() {
           </span>
         </div>
         <div className={styles.topActions}>
+          <button
+            className={styles.styleShortcut}
+            onClick={() => {
+              setActive("Style");
+              setShowPreview(false);
+            }}
+          >
+            <Palette size={15} /> Style
+          </button>
           <button className={styles.ghostBtn} onClick={reset}>
             <RotateCcw size={15} />
             Reset
@@ -259,8 +374,8 @@ export default function Home() {
           </button>
         </div>
       </header>
-      <div className={styles.workspace}>
-        <aside className={styles.sidebar}>
+      <div className={styles.workspace} data-app-layout>
+        <aside className={styles.sidebar} data-print-hide>
           <div className={styles.sideIntro}>
             <span className={styles.eyebrow}>YOUR WORKSPACE</span>
             <h1>Resume builder</h1>
@@ -292,9 +407,13 @@ export default function Home() {
                 }}
               >
                 <span className={styles.navNum}>
-                  {String(i + 1).padStart(2, "0")}
+                  {s === "Style" ? (
+                    <Palette size={15} />
+                  ) : (
+                    String(i + 1).padStart(2, "0")
+                  )}
                 </span>
-                <span>{s}</span>
+                <span>{s === "Style" ? "Style & color" : s}</span>
                 {active === s && <span className={styles.navArrow}>→</span>}
               </button>
             ))}
@@ -321,6 +440,7 @@ export default function Home() {
         </aside>
         <section
           className={`${styles.editor} ${showPreview ? styles.hideOnMobile : ""}`}
+          data-print-hide
         >
           <div className={styles.editorHead}>
             <div>
@@ -661,8 +781,9 @@ export default function Home() {
         </section>
         <section
           className={`${styles.previewPane} ${showPreview ? styles.showOnMobile : ""}`}
+          data-app-preview
         >
-          <div className={styles.previewToolbar}>
+          <div className={styles.previewToolbar} data-print-hide>
             <div>
               <span className={styles.previewStatus}>
                 <i />
@@ -679,10 +800,11 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className={styles.paperWrap}>
+          <div className={styles.paperWrap} data-paper-wrap>
             <article
               className={`${styles.paper} ${styles.resumePaper}`}
               data-design={resume.template}
+              data-print-paper
               style={{ fontSize: `${resume.fontSize}px` }}
             >
               <header className={styles.paperHeader}>
@@ -759,7 +881,7 @@ export default function Home() {
               </div>
             </article>
           </div>
-          <div className={styles.previewBottom}>
+          <div className={styles.previewBottom} data-print-hide>
             <span>
               <span className={styles.kbd}>A4</span> Standard page size
             </span>
@@ -791,7 +913,7 @@ export default function Home() {
               ×
             </button>
             <div className={styles.brandMark}>
-              <FileText size={18} />
+              <BrandGlyph />
             </div>
             <h2>Welcome to folio.</h2>
             <p>Connect to your account to get started.</p>

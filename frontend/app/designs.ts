@@ -20,7 +20,6 @@ const layouts = [
   "double-rule",
   "spotlight",
 ];
-
 const makeDesigns = (prefix: string, names: string[], notes: string[]) =>
   names.map((name, index) => ({
     id: `${prefix}-${String(index + 1).padStart(2, "0")}`,
@@ -145,16 +144,16 @@ export const allDesigns = designLevels.flatMap((level) =>
 );
 
 export const colorPalette = [
-  { name: "Iris", value: "#7657e8" },
-  { name: "Ocean", value: "#2563a5" },
-  { name: "Forest", value: "#28745e" },
-  { name: "Terracotta", value: "#c65b45" },
-  { name: "Berry", value: "#ae4772" },
-  { name: "Cobalt", value: "#4059c8" },
-  { name: "Teal", value: "#168b8b" },
-  { name: "Saffron", value: "#bb8124" },
-  { name: "Plum", value: "#783e8e" },
-  { name: "Slate", value: "#536579" },
-  { name: "Rose", value: "#d75f82" },
-  { name: "Midnight", value: "#303d6a" },
+  { name: "Iris", value: "#6044c8" },
+  { name: "Ocean", value: "#245b92" },
+  { name: "Forest", value: "#1d684b" },
+  { name: "Terracotta", value: "#a74331" },
+  { name: "Berry", value: "#8e3c63" },
+  { name: "Cobalt", value: "#3b4da8" },
+  { name: "Teal", value: "#147070" },
+  { name: "Saffron", value: "#8d5b13" },
+  { name: "Plum", value: "#623576" },
+  { name: "Slate", value: "#465568" },
+  { name: "Rose", value: "#a34261" },
+  { name: "Midnight", value: "#273159" },
 ];

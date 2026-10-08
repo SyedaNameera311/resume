@@ -1,3 +1,133 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
-:root{color-scheme:light;--ink:#202021;--muted:#87868b;--line:#ebe9ed;--paper:#fff;--canvas:#f6f5f7;--accent:#8f6cff;font-family:'DM Sans',Arial,sans-serif;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--canvas)}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 30%,transparent);outline-offset:2px}::selection{background:#ded4ff}
-@media print{@page{size:A4;margin:0}html,body{background:#fff!important}.app header,.sidebar,.editor,.previewToolbar,.previewBottom,.toast,.modalOverlay{display:none!important}.workspace,.previewPane,.paperWrap{display:block!important;width:100%!important;height:auto!important;padding:0!important;margin:0!important;overflow:visible!important;background:#fff!important}.paper{width:210mm!important;min-height:297mm!important;margin:0!important;box-shadow:none!important;page-break-after:avoid!important}}
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap");
+:root {
+  color-scheme: light;
+  --ink: #202021;
+  --muted: #87868b;
+  --line: #ebe9ed;
+  --paper: #fff;
+  --canvas: #f6f5f7;
+  --accent: #7657e8;
+  font-family: "DM Sans", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--canvas);
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  outline-offset: 2px;
+}
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, white);
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+  body * {
+    visibility: hidden !important;
+  }
+  [data-print-hide] {
+    display: none !important;
+  }
+  [data-app-root] {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  [data-app-layout] {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  [data-app-preview] {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  [data-paper-wrap] {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  [data-print-paper],
+  [data-print-paper] * {
+    visibility: visible !important;
+  }
+  [data-print-paper] {
+    position: static !important;
+    display: block !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 16mm !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    background: #fff !important;
+    color: #17151a !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    break-after: avoid !important;
+  }
+  [data-print-paper] .paperAccent {
+    display: block !important;
+  }
+  [data-print-paper] .paperHeader {
+    break-inside: avoid;
+  }
+  [data-print-paper] .paperSection,
+  [data-print-paper] .paperEntry {
+    break-inside: avoid-page;
+  }
+  a {
+    color: inherit;
+  }
+}
