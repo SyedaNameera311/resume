@@ -207,7 +207,9 @@ export default function Home() {
     [resume],
   );
   const exportPDF = () => {
-    window.print();
+    localStorage.setItem("folio-resume", JSON.stringify(resume));
+    const printWindow = window.open("/resume?print=1", "_blank");
+    if (!printWindow) window.location.assign("/resume?print=1");
   };
   const reset = () => {
     setResume(starter);
@@ -768,12 +770,19 @@ export default function Home() {
               <button
                 className={styles.nextBtn}
                 onClick={() => {
+                  if (active === "Style") {
+                    localStorage.setItem(
+                      "folio-resume",
+                      JSON.stringify(resume),
+                    );
+                    window.location.assign("/resume");
+                    return;
+                  }
                   const i = sections.indexOf(active);
                   if (i < sections.length - 1) setActive(sections[i + 1]);
-                  else setShowPreview(true);
                 }}
               >
-                {active === "Style" ? "Preview resume" : "Continue"}
+                {active === "Style" ? "View finished resume" : "Continue"}
                 <ArrowRight size={15} />
               </button>
             </div>

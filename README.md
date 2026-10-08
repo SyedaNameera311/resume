@@ -10,7 +10,7 @@ A responsive resume maker built with Next.js and an existing Express authenticat
 - Regular, Large, and Extra-large resume type sizes
 - Live resume preview, editable experience/education, and skill quick-add chips
 - Browser-local draft persistence (resume content remains in the browser)
-- PDF export/print that shows the resume only, without the editing interface
+- PDF export opens a separate **finished resume** page from the latest draft; print output contains the resume only
 - Sign-in / registration form wired to the existing Express routes
 
 ## Run the frontend
@@ -31,7 +31,3 @@ Open the website on a phone, then choose **Install app** in Chrome/Android or **
 ## Run the backend
 
 The existing Express starter listens on port 5000 and exposes `POST /api/auth/register` and `POST /api/auth/login`. Configure the MongoDB connection in the root `.env`, then install the backend dependencies and run `node server.js`. The repository's backend is an early starter; review its authentication and database configuration before production use.
-
-## Export
-
-Choose **Download PDF** or **Export PDF**, then select “Save as PDF” in the browser print dialog. The print layout includes only the resume page; the sidebar, editor, buttons, and preview chrome are hidden.
